@@ -31,6 +31,7 @@ class App:
         file = filedialog.askopenfilename(initialdir="/",title="SELECCIONAR ARCHIVO",
                     filetypes =(("PDF files","*.pdf") ,("all files","*.*")))
         if file != "":
+            self.display.delete('1.0',END)
             resource_manager = PDFResourceManager(caching=True)
             out_text = StringIO()
             codec = 'utf-8'
