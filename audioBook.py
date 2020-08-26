@@ -18,7 +18,7 @@ class App:
         self.ventana.title("AUDIO BOOK MAKER")
         self.btnSearch = Button(self.ventana,text="BUSCA PDF",command=self.open)
         self.btnSearch.place(x=1,y=7)
-        self.btnListen = Button(self.ventana,text="LEER",command=self.read_text)
+        self.btnListen = Button(self.ventana,text="LEER",command=self.initRead)
         self.btnListen.place(x=90,y=7)
         self.display=scrolledtext.ScrolledText(self.ventana,background='white',width=97,height=28)
         self.display.pack(side='bottom')
@@ -53,6 +53,10 @@ class App:
     def read_text(self):
         self.player.say(self.text)
         self.player.runAndWait()
+
+    def initRead(self):
+        t = threading.Thread(target=self.read_text)
+        t.start()
             
 
 
