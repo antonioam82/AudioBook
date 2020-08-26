@@ -29,23 +29,13 @@ class App:
         file = filedialog.askopenfilename(initialdir="/",title="SELECCIONAR ARCHIVO",
                     filetypes =(("PDF files","*.pdf") ,("all files","*.*")))
         if file != "":
-            pdfreader = PyPDF2.PdfFileReader(file)
-            pages = pdfreader.numPages
-            self.display.insert(END,'hole')
-
             resource_manager = PDFResourceManager(caching=True)
-
             out_text = StringIO()
-            
             codec = 'utf-8'
-            
             laParams = LAParams()
-            
             text_converter = TextConverter(resource_manager, out_text, laparams=laParams)
             fp = open(file, 'rb')
-           
             interpreter = PDFPageInterpreter(resource_manager, text_converter)
-
             for page in PDFPage.get_pages(fp, pagenos=set(), maxpages=0, password="", caching=True, check_extractable=True):
                 interpreter.process_page(page)
 
