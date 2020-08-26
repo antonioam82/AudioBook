@@ -1,14 +1,13 @@
 import pyttsx3
 from tkinter import *
 from tkinter import filedialog
-#from tkinter.filedialog import *
 import tkinter.scrolledtext as scrolledtext
 from pdfminer.pdfinterp import PDFResourceManager, PDFPageInterpreter
 from pdfminer.layout import LAParams
 from pdfminer.converter import TextConverter
 from io import StringIO
 from pdfminer.pdfpage import PDFPage
-
+import threading
 
 class App:
     def __init__(self):
@@ -19,9 +18,12 @@ class App:
         self.ventana.title("AUDIO BOOK MAKER")
         self.btnSearch = Button(self.ventana,text="BUSCA PDF",command=self.open)
         self.btnSearch.place(x=1,y=7)
+        self.btnListen = Button(self.ventana,text="LEER",command=self.read_text)
+        self.btnListen.place(x=90,y=7)
         self.display=scrolledtext.ScrolledText(self.ventana,background='white',width=97,height=28)
         self.display.pack(side='bottom')
         #self.display.place(x=2,y=27)
+        self.player = pyttsx3.init()
 
         self.ventana.mainloop()
 
@@ -39,13 +41,18 @@ class App:
             for page in PDFPage.get_pages(fp, pagenos=set(), maxpages=0, password="", caching=True, check_extractable=True):
                 interpreter.process_page(page)
 
-            text = out_text.getvalue()
+            self.text = out_text.getvalue()
 
             fp.close()
             text_converter.close()
             out_text.close()
 
-            self.display.insert(END,text)
+            self.display.insert(END,self.text)
+
+    def read_text(self):
+        self.player.say(self.text)
+        self.player.runAndWait()
+            
 
 
 if __name__=="__main__":
