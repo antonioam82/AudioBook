@@ -66,7 +66,5 @@ class App:
         t = threading.Thread(target=self.read_text)
         t.start()
             
-
-
 if __name__=="__main__":
     App()
