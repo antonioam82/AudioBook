@@ -18,7 +18,8 @@ class App:
         self.ventana.title("AUDIO BOOK MAKER")
         self.rate=IntVar()
         self.rate.set(130)
-        self.btnSearch = Button(self.ventana,text="BUSCA PDF",command=self.open)
+        self.text = ""
+        self.btnSearch = Button(self.ventana,text="BUSCA PDF",command=self.init_open)
         self.btnSearch.place(x=1,y=7)
         self.btnListen = Button(self.ventana,text="LEER",command=self.initRead)
         self.btnListen.place(x=90,y=7)
@@ -65,6 +66,12 @@ class App:
     def initRead(self):
         t = threading.Thread(target=self.read_text)
         t.start()
+
+    def init_open(self):
+        t0 = threading.Thread(target=self.open)
+        t0.start()
             
+
+
 if __name__=="__main__":
     App()
