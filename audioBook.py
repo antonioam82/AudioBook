@@ -19,6 +19,9 @@ class App:
         self.rate=IntVar()
         self.rate.set(130)
         self.text = ""
+        
+        self.resource_manager = PDFResourceManager(caching=True)
+        
         self.btnSearch = Button(self.ventana,text="BUSCA PDF",command=self.init_open)
         self.btnSearch.place(x=1,y=7)
         self.btnListen = Button(self.ventana,text="LEER",command=self.initRead)
@@ -38,13 +41,13 @@ class App:
                     filetypes =(("PDF files","*.pdf") ,("all files","*.*")))
         if file != "":
             self.display.delete('1.0',END)
-            resource_manager = PDFResourceManager(caching=True)
+            #resource_manager = PDFResourceManager(caching=True)
             out_text = StringIO()
             codec = 'utf-8'
             laParams = LAParams()
-            text_converter = TextConverter(resource_manager, out_text, laparams=laParams)
+            text_converter = TextConverter(self.resource_manager, out_text, laparams=laParams)
             fp = open(file, 'rb')
-            interpreter = PDFPageInterpreter(resource_manager, text_converter)
+            interpreter = PDFPageInterpreter(self.resource_manager, text_converter)
             for page in PDFPage.get_pages(fp, pagenos=set(), maxpages=0, password="", caching=True, check_extractable=True):
                 interpreter.process_page(page)
 
@@ -71,7 +74,5 @@ class App:
         t0 = threading.Thread(target=self.open)
         t0.start()
             
-
-
 if __name__=="__main__":
     App()
