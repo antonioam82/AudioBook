@@ -24,6 +24,7 @@ class App:
         self.display.pack(side='bottom')
         #self.display.place(x=2,y=27)
         self.player = pyttsx3.init()
+        self.player.setProperty('rate',130)
 
         self.ventana.mainloop()
 
@@ -58,7 +59,5 @@ class App:
         t = threading.Thread(target=self.read_text)
         t.start()
             
-
-
 if __name__=="__main__":
     App()
