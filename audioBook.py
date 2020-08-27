@@ -16,15 +16,19 @@ class App:
         self.ventana.configure(bg='dim gray')
         self.ventana.geometry("801x490")
         self.ventana.title("AUDIO BOOK MAKER")
+        self.rate=IntVar()
+        self.rate.set(130)
         self.btnSearch = Button(self.ventana,text="BUSCA PDF",command=self.open)
         self.btnSearch.place(x=1,y=7)
         self.btnListen = Button(self.ventana,text="LEER",command=self.initRead)
         self.btnListen.place(x=90,y=7)
         self.display=scrolledtext.ScrolledText(self.ventana,background='white',width=97,height=28)
         self.display.pack(side='bottom')
-        #self.display.place(x=2,y=27)
         self.player = pyttsx3.init()
-        self.player.setProperty('rate',130)
+        self.label = Label(self.ventana,text='Speech Rate:',bg='dim gray',fg='white')
+        self.label.place(x=150,y=9)
+        self.entry = Entry(self.ventana,width=6,textvariable=self.rate)
+        self.entry.place(x=227,y=9)
 
         self.ventana.mainloop()
 
@@ -50,8 +54,11 @@ class App:
             out_text.close()
 
             self.display.insert(END,self.text)
+        
 
     def read_text(self):
+        self.player.setProperty('rate',int(self.entry.get()))
+            
         self.player.say(self.text)
         self.player.runAndWait()
 
@@ -59,5 +66,7 @@ class App:
         t = threading.Thread(target=self.read_text)
         t.start()
             
+
+
 if __name__=="__main__":
     App()
