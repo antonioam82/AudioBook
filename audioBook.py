@@ -15,7 +15,7 @@ class App:
         self.ventana = Tk()
         self.ventana.configure(bg='dim gray')
         self.ventana.geometry("801x490")
-        self.ventana.title("AUDIO BOOK MAKER")
+        self.ventana.title("LECTOR PDFs")
         self.rate=IntVar()
         self.rate.set(130)
         self.text = ""
