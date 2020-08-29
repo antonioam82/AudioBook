@@ -8,6 +8,7 @@ from pdfminer.converter import TextConverter
 from io import StringIO
 from pdfminer.pdfpage import PDFPage
 import threading
+import os
 
 class App:
     def __init__(self):
@@ -33,6 +34,8 @@ class App:
         self.label.place(x=150,y=9)
         self.entry = Entry(self.ventana,width=6,textvariable=self.rate)
         self.entry.place(x=227,y=9)
+        self.btnSave = Button(self.ventana,text='SAVE',command=self.init_save)
+        self.btnSave.place(x=300,y=7)
 
         self.ventana.mainloop()
 
@@ -66,6 +69,12 @@ class App:
         self.player.runAndWait()
         self.player.stop()
 
+    def saveFile(self):
+        self.player.save_to_file(self.text,'audioBook_speech.mp3')
+        self.player.runAndWait()
+        if 'audioBook_speech.mp3' in os.listdir():
+            print("Done")
+
     def initRead(self):
         t = threading.Thread(target=self.read_text)
         t.start()
@@ -73,6 +82,10 @@ class App:
     def init_open(self):
         t0 = threading.Thread(target=self.open)
         t0.start()
+
+    def init_save(self):
+        t1 = threading.Thread(target=self.saveFile)
+        t1.start()
             
 if __name__=="__main__":
     App()
