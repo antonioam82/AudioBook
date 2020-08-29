@@ -41,7 +41,6 @@ class App:
                     filetypes =(("PDF files","*.pdf") ,("all files","*.*")))
         if file != "":
             self.display.delete('1.0',END)
-            #resource_manager = PDFResourceManager(caching=True)
             out_text = StringIO()
             codec = 'utf-8'
             laParams = LAParams()
@@ -65,6 +64,7 @@ class App:
             
         self.player.say(self.text)
         self.player.runAndWait()
+        self.player.stop()
 
     def initRead(self):
         t = threading.Thread(target=self.read_text)
