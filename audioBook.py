@@ -20,6 +20,7 @@ class App:
         self.rate=IntVar()
         self.rate.set(130)
         self.text = ""
+        self.actv = False
         
         self.resource_manager = PDFResourceManager(caching=True)
         
@@ -63,6 +64,7 @@ class App:
         
 
     def read_text(self):
+        self.actv = True
         self.player.setProperty('rate',int(self.entry.get()))
             
         self.player.say(self.text)
@@ -70,10 +72,11 @@ class App:
         self.player.stop()
 
     def saveFile(self):
-        self.player.save_to_file(self.text,'audioBook_speech.mp3')
-        self.player.runAndWait()
-        if 'audioBook_speech.mp3' in os.listdir():
-            print("Done")
+        if self.actv == False:
+            self.player.save_to_file(self.text,'audioBook_speech.mp3')
+            self.player.runAndWait()
+            if 'audioBook_speech.mp3' in os.listdir():
+                print("Done")
 
     def initRead(self):
         t = threading.Thread(target=self.read_text)
