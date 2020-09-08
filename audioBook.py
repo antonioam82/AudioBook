@@ -1,6 +1,6 @@
 import pyttsx3
 from tkinter import *
-from tkinter import filedialog
+from tkinter import filedialog, messagebox
 import tkinter.scrolledtext as scrolledtext
 from pdfminer.pdfinterp import PDFResourceManager, PDFPageInterpreter
 from pdfminer.layout import LAParams
@@ -76,10 +76,10 @@ class App:
             self.player.save_to_file(self.text,'audioBook_speech.mp3')
             self.player.runAndWait()
             if 'audioBook_speech.mp3' in os.listdir():
-                print("Done")
+                messagebox.showinfo("TAREA COMPLETADA","Archivo creado correctamente")
 
     def initRead(self):
-        t = threading.Thread(target=self.read_text)
+        t = threading.Thread(target=self.read_text,daemon=True)
         t.start()
 
     def init_open(self):
