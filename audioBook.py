@@ -18,7 +18,7 @@ class App:
         self.ventana = Tk()
         self.ventana.configure(bg='dim gray')
         self.ventana.geometry("801x490")
-        self.ventana.title("LECTOR PDFs")
+        self.ventana.title("LECTOR DE TEXTOS")
         self.rate=IntVar()
         self.rate.set(130)
         self.text = ""
