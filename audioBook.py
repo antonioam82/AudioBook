@@ -1,3 +1,5 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
 import pyttsx3
 from tkinter import *
 from tkinter import filedialog, messagebox
