@@ -46,6 +46,7 @@ class App:
         file = filedialog.askopenfilename(initialdir="/",title="SELECCIONAR ARCHIVO",
                     filetypes =(("PDF files","*.pdf") ,("all files","*.*")))
         if file != "":
+            pages = 0
             self.display.delete('1.0',END)
             out_text = StringIO()
             codec = 'utf-8'
@@ -55,8 +56,12 @@ class App:
             interpreter = PDFPageInterpreter(self.resource_manager, text_converter)
             for page in PDFPage.get_pages(fp, pagenos=set(), maxpages=0, password="", caching=True, check_extractable=True):
                 interpreter.process_page(page)
-
+                pages += 1
             self.text = out_text.getvalue()
+            l = self.text.split(" ")
+            print(l)
+            print('{} Páginas'.format(pages))
+            #print('{} Palabras'.format(len(l)))
 
             fp.close()
             text_converter.close()
