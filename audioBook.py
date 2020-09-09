@@ -61,7 +61,7 @@ class App:
                 pages += 1
             self.text = out_text.getvalue()
             l = self.text.split(" ")
-            self.label2.config(text='TITULO: {}, NÚMERO DE PÁGINAS: {}'.format((file.split('/')[-1]),pages))
+            self.label2.config(text='TITULO: {}  ({} Páginas)'.format((file.split('/')[-1]),pages))
             print('{} Páginas'.format(pages))
 
             fp.close()
