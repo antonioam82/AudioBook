@@ -17,7 +17,7 @@ class App:
 
         self.ventana = Tk()
         self.ventana.configure(bg='dim gray')
-        self.ventana.geometry("801x490")
+        self.ventana.geometry("801x511")
         self.ventana.title("LECTOR DE TEXTOS")
         self.rate=IntVar()
         self.rate.set(130)
@@ -30,6 +30,8 @@ class App:
         self.btnSearch.place(x=1,y=7)
         self.btnListen = Button(self.ventana,text="LEER",command=self.initRead)
         self.btnListen.place(x=90,y=7)
+        self.label2 = Label(self.ventana,bg='dim gray',fg='white')
+        self.label2.pack(side='bottom')        
         self.display=scrolledtext.ScrolledText(self.ventana,background='white',width=97,height=28)
         self.display.pack(side='bottom')
         self.player = pyttsx3.init()
@@ -59,9 +61,8 @@ class App:
                 pages += 1
             self.text = out_text.getvalue()
             l = self.text.split(" ")
-            print(l)
+            self.label2.config(text='TITULO: {}, NÚMERO DE PÁGINAS: {}'.format((file.split('/')[-1]),pages))
             print('{} Páginas'.format(pages))
-            #print('{} Palabras'.format(len(l)))
 
             fp.close()
             text_converter.close()
