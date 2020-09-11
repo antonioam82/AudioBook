@@ -78,8 +78,8 @@ class App:
     def read_text(self):
         self.actv = True
         self.player.setProperty('rate',int(self.entry.get()))
-            
-        self.player.say(self.text)
+        self.correct_speech = self.text.replace('\n',"") 
+        self.player.say(self.correct_speech)
         self.player.runAndWait()
         self.player.stop()
         self.actv = False
@@ -87,7 +87,7 @@ class App:
     def saveFile(self):
         if self.actv == False and self.text != "":
             self.btnSave.config(text="GUARDANDO....")
-            self.player.save_to_file(self.text,'audioBook_speech.mp3')
+            self.player.save_to_file(self.correct_speech,'audioBook_speech.mp3')
             self.player.runAndWait()
             if 'audioBook_speech.mp3' in os.listdir():
                 messagebox.showinfo("TAREA COMPLETADA","Archivo creado correctamente")
