@@ -82,13 +82,16 @@ class App:
         self.player.say(self.text)
         self.player.runAndWait()
         self.player.stop()
+        self.actv = False
 
     def saveFile(self):
         if self.actv == False and self.text != "":
+            self.btnSave.config(text="GUARDANDO....")
             self.player.save_to_file(self.text,'audioBook_speech.mp3')
             self.player.runAndWait()
             if 'audioBook_speech.mp3' in os.listdir():
                 messagebox.showinfo("TAREA COMPLETADA","Archivo creado correctamente")
+            self.btnSave.config(text="GUARDA AUDIO")
 
     def initRead(self):
         t = threading.Thread(target=self.read_text,daemon=True)
