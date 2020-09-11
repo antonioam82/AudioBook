@@ -48,30 +48,32 @@ class App:
         file = filedialog.askopenfilename(initialdir="/",title="SELECCIONAR ARCHIVO",
                     filetypes =(("PDF files","*.pdf") ,("all files","*.*")))
         if file != "":
-            pages = 0
-            self.display.delete('1.0',END)
-            out_text = StringIO()
-            codec = 'utf-8'
-            laParams = LAParams()
-            text_converter = TextConverter(self.resource_manager, out_text, laparams=laParams)
-            fp = open(file, 'rb')
-            interpreter = PDFPageInterpreter(self.resource_manager, text_converter)
-            for page in PDFPage.get_pages(fp, pagenos=set(), maxpages=0, password="", caching=True, check_extractable=True):
-                interpreter.process_page(page)
-                pages += 1
-            self.text = out_text.getvalue()
-            l = self.text.split(" ")
-            self.label2.config(text='TITULO: {}  ({} Páginas)'.format((file.split('/')[-1]),pages))
-            print('{} Páginas'.format(pages))
+            try:
+                pages = 0
+                self.display.delete('1.0',END)
+                out_text = StringIO()
+                codec = 'utf-8'
+                laParams = LAParams()
+                text_converter = TextConverter(self.resource_manager, out_text, laparams=laParams)
+                fp = open(file, 'rb')
+                interpreter = PDFPageInterpreter(self.resource_manager, text_converter)
+                for page in PDFPage.get_pages(fp, pagenos=set(), maxpages=0, password="", caching=True, check_extractable=True):
+                    interpreter.process_page(page)
+                    pages += 1
+                self.text = out_text.getvalue()
+                l = self.text.split(" ")
+                self.label2.config(text='TITULO: {}  ({} Páginas)'.format((file.split('/')[-1]),pages))
+                #print('{} Páginas'.format(pages))
 
-            fp.close()
-            text_converter.close()
-            out_text.close()
+                fp.close()
+                text_converter.close()
+                out_text.close()
 
-            self.display.insert(END,self.text)
-        
-
-    def read_text(self):
+                self.display.insert(END,self.text)
+            except:
+                messagebox.showwarning("ERROR","Se produjo un error al cargar el archivo")
+                
+   def read_text(self):
         self.actv = True
         self.player.setProperty('rate',int(self.entry.get()))
             
