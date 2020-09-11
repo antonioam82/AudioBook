@@ -39,7 +39,7 @@ class App:
         self.label.place(x=150,y=9)
         self.entry = Entry(self.ventana,width=6,textvariable=self.rate)
         self.entry.place(x=227,y=9)
-        self.btnSave = Button(self.ventana,text='SAVE',command=self.init_save)
+        self.btnSave = Button(self.ventana,text='GUARDA AUDIO',command=self.init_save)
         self.btnSave.place(x=300,y=7)
 
         self.ventana.mainloop()
