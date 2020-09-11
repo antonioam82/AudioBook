@@ -80,7 +80,7 @@ class App:
         self.player.stop()
 
     def saveFile(self):
-        if self.actv == False:
+        if self.actv == False and self.text != "":
             self.player.save_to_file(self.text,'audioBook_speech.mp3')
             self.player.runAndWait()
             if 'audioBook_speech.mp3' in os.listdir():
