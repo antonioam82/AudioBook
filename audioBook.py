@@ -73,7 +73,9 @@ class App:
             except:
                 messagebox.showwarning("ERROR","Se produjo un error al cargar el archivo")
                 
-   def read_text(self):
+        
+
+    def read_text(self):
         self.actv = True
         self.player.setProperty('rate',int(self.entry.get()))
             
