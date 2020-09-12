@@ -51,6 +51,7 @@ class App:
             try:
                 pages = 0
                 self.display.delete('1.0',END)
+                self.label2.config(text="CARGANDO TEXTO...")
                 out_text = StringIO()
                 codec = 'utf-8'
                 laParams = LAParams()
@@ -69,6 +70,7 @@ class App:
 
                 self.display.insert(END,self.text)
             except:
+                self.label2.config(text="")
                 messagebox.showwarning("ERROR","Se produjo un error al cargar el archivo")
                 
     def read_text(self):
