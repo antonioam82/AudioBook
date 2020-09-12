@@ -61,9 +61,7 @@ class App:
                     interpreter.process_page(page)
                     pages += 1
                 self.text = out_text.getvalue()
-                #l = self.text.split(" ")
                 self.label2.config(text='TITULO: {}  ({} Páginas)'.format((file.split('/')[-1]),pages))
-                #print('{} Páginas'.format(pages))
 
                 fp.close()
                 text_converter.close()
@@ -73,8 +71,6 @@ class App:
             except:
                 messagebox.showwarning("ERROR","Se produjo un error al cargar el archivo")
                 
-        
-
     def read_text(self):
         self.actv = True
         self.player.setProperty('rate',int(self.entry.get()))
