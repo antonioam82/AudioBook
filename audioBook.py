@@ -62,6 +62,7 @@ class App:
                     interpreter.process_page(page)
                     pages += 1
                 self.text = out_text.getvalue()
+                self.correct_speech = self.text.replace('\n',"") 
                 self.label2.config(text='TITULO: {}  ({} Páginas)'.format((file.split('/')[-1]),pages))
 
                 fp.close()
@@ -76,7 +77,7 @@ class App:
     def read_text(self):
         self.actv = True
         self.player.setProperty('rate',int(self.entry.get()))
-        self.correct_speech = self.text.replace('\n',"") 
+        #self.correct_speech = self.text.replace('\n',"") 
         self.player.say(self.correct_speech)
         self.player.runAndWait()
         self.player.stop()
