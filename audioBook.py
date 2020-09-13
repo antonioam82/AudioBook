@@ -26,9 +26,9 @@ class App:
         
         self.resource_manager = PDFResourceManager(caching=True)
         
-        self.btnSearch = Button(self.ventana,text="BUSCA PDF",command=self.init_open)
+        self.btnSearch = Button(self.ventana,text="BUSCA PDF",command=lambda:self.init_task(1))
         self.btnSearch.place(x=1,y=7)
-        self.btnListen = Button(self.ventana,text="LEER",command=self.initRead)
+        self.btnListen = Button(self.ventana,text="LEER",command=lambda:self.init_task(0))
         self.btnListen.place(x=90,y=7)
         self.label2 = Label(self.ventana,bg='dim gray',fg='white')
         self.label2.pack(side='bottom')        
@@ -39,7 +39,7 @@ class App:
         self.label.place(x=150,y=9)
         self.entry = Entry(self.ventana,width=6,textvariable=self.rate)
         self.entry.place(x=227,y=9)
-        self.btnSave = Button(self.ventana,text='GUARDA AUDIO',command=self.init_save)
+        self.btnSave = Button(self.ventana,text='GUARDA AUDIO',command=lambda:self.init_task(2))
         self.btnSave.place(x=300,y=7)
 
         self.ventana.mainloop()
@@ -83,7 +83,7 @@ class App:
         self.actv = False
 
     def saveFile(self):
-        if self.actv == False and self.text != "":
+        if self.text != "":
             self.btnSave.config(text="GUARDANDO....")
             self.player.save_to_file(self.correct_speech,'audioBook_speech.mp3')
             self.player.runAndWait()
@@ -91,17 +91,11 @@ class App:
                 messagebox.showinfo("TAREA COMPLETADA","Archivo creado correctamente")
             self.btnSave.config(text="GUARDA AUDIO")
 
-    def initRead(self):
-        t = threading.Thread(target=self.read_text,daemon=True)
-        t.start()
-
-    def init_open(self):
-        t0 = threading.Thread(target=self.open)
-        t0.start()
-
-    def init_save(self):
-        t1 = threading.Thread(target=self.saveFile)
-        t1.start()
+    def init_task(self,i):
+        if self.actv == False:
+            task = [self.read_text,self.open,self.saveFile]
+            t = threading.Thread(target=task[i])
+            t.start()
             
 if __name__=="__main__":
     App()
