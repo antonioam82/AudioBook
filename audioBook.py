@@ -80,6 +80,7 @@ class App:
         self.player.say(self.correct_speech)
         self.player.runAndWait()
         self.player.stop()
+        
         self.actv = False
 
     def saveFile(self):
