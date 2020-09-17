@@ -10,6 +10,7 @@ from pdfminer.converter import TextConverter
 from io import StringIO
 from pdfminer.pdfpage import PDFPage
 import threading
+import gtts
 import os
 
 class App:
@@ -45,39 +46,39 @@ class App:
         self.ventana.mainloop()
 
     def open(self):
-        file = filedialog.askopenfilename(initialdir="/",title="SELECCIONAR ARCHIVO",
-                    filetypes =(("PDF files","*.pdf") ,("all files","*.*")))
-        if file != "":
-            try:
-                pages = 0
-                self.display.delete('1.0',END)
-                self.label2.config(text="CARGANDO TEXTO...")
-                out_text = StringIO()
-                codec = 'utf-8'
-                laParams = LAParams()
-                text_converter = TextConverter(self.resource_manager, out_text, laparams=laParams)
-                fp = open(file, 'rb')
-                interpreter = PDFPageInterpreter(self.resource_manager, text_converter)
-                for page in PDFPage.get_pages(fp, pagenos=set(), maxpages=0, password="", caching=True, check_extractable=True):
-                    interpreter.process_page(page)
-                    pages += 1
-                self.text = out_text.getvalue()
-                self.correct_speech = self.text.replace('\n',"") 
-                self.label2.config(text='TITULO: {}  ({} Páginas)'.format((file.split('/')[-1]),pages))
+        if self.actv == False:
+            file = filedialog.askopenfilename(initialdir="/",title="SELECCIONAR ARCHIVO",
+                        filetypes =(("PDF files","*.pdf") ,("all files","*.*")))
+            if file != "":
+                try:
+                    pages = 0
+                    self.display.delete('1.0',END)
+                    self.label2.config(text="CARGANDO TEXTO...")
+                    out_text = StringIO()
+                    codec = 'utf-8'
+                    laParams = LAParams()
+                    text_converter = TextConverter(self.resource_manager, out_text, laparams=laParams)
+                    fp = open(file, 'rb')
+                    interpreter = PDFPageInterpreter(self.resource_manager, text_converter)
+                    for page in PDFPage.get_pages(fp, pagenos=set(), maxpages=0, password="", caching=True, check_extractable=True):
+                        interpreter.process_page(page)
+                        pages += 1
+                    self.text = out_text.getvalue()
+                    self.correct_speech = self.text.replace('\n',"") 
+                    self.label2.config(text='TITULO: {}  ({} Páginas)'.format((file.split('/')[-1]),pages))
 
-                fp.close()
-                text_converter.close()
-                out_text.close()
+                    fp.close()
+                    text_converter.close()
+                    out_text.close()
 
-                self.display.insert(END,self.text)
-            except:
-                self.label2.config(text="")
-                messagebox.showwarning("ERROR","Se produjo un error al cargar el archivo")
+                    self.display.insert(END,self.text)
+                except:
+                    self.label2.config(text="")
+                    messagebox.showwarning("ERROR","Se produjo un error al cargar el archivo")
                 
     def read_text(self):
         self.actv = True
         self.player.setProperty('rate',int(self.entry.get()))
-        #self.correct_speech = self.text.replace('\n',"") 
         self.player.say(self.correct_speech)
         self.player.runAndWait()
         self.player.stop()
@@ -86,17 +87,23 @@ class App:
     def saveFile(self):
         if self.text != "":
             self.btnSave.config(text="GUARDANDO....")
-            self.player.save_to_file(self.correct_speech,'audioBook_speech.mp3')
-            self.player.runAndWait()
-            if 'audioBook_speech.mp3' in os.listdir():
+            try:
+                if self.actv == False:
+                    self.player.setProperty('rate',int(self.entry.get()))
+                    self.player.save_to_file(self.correct_speech,'audioBook_speech.mp3')
+                    self.player.runAndWait()
+                else:
+                    self.tts = gtts.gTTS(self.text,lang='es')
+                    self.tts.save('audioBook_speech.mp3')
                 messagebox.showinfo("TAREA COMPLETADA","Archivo creado correctamente")
-            self.btnSave.config(text="GUARDA AUDIO")
+                self.btnSave.config(text="GUARDA AUDIO")
+            except:
+                messagebox.showwarning("ERROR","No se pudo completar la acción")
 
     def init_task(self,i):
-        if self.actv == False:
-            task = [self.read_text,self.open,self.saveFile]
-            t = threading.Thread(target=task[i])
-            t.start()
+        task = [self.read_text,self.open,self.saveFile]
+        t = threading.Thread(target=task[i])
+        t.start()
             
 if __name__=="__main__":
     App()
