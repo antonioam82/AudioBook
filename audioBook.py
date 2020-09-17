@@ -50,7 +50,6 @@ class App:
             file = filedialog.askopenfilename(initialdir="/",title="SELECCIONAR ARCHIVO",
                         filetypes =(("PDF files","*.pdf") ,("all files","*.*")))
             if file != "":
-                print(file)
                 self.name,ex = os.path.splitext((file.split('/')[-1]))
                 try:
                     pages = 0
