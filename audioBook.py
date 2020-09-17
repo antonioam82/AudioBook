@@ -50,6 +50,8 @@ class App:
             file = filedialog.askopenfilename(initialdir="/",title="SELECCIONAR ARCHIVO",
                         filetypes =(("PDF files","*.pdf") ,("all files","*.*")))
             if file != "":
+                print(file)
+                self.name,ex = os.path.splitext((file.split('/')[-1]))
                 try:
                     pages = 0
                     self.display.delete('1.0',END)
@@ -90,11 +92,11 @@ class App:
             try:
                 if self.actv == False:
                     self.player.setProperty('rate',int(self.entry.get()))
-                    self.player.save_to_file(self.correct_speech,'audioBook_speech.mp3')
+                    self.player.save_to_file(self.correct_speech,self.name+'.mp3')
                     self.player.runAndWait()
                 else:
                     self.tts = gtts.gTTS(self.text,lang='es')
-                    self.tts.save('audioBook_speech.mp3')
+                    self.tts.save(self.name+'.mp3')
                 messagebox.showinfo("TAREA COMPLETADA","Archivo creado correctamente")
                 self.btnSave.config(text="GUARDA AUDIO")
             except:
