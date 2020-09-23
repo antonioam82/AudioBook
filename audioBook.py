@@ -50,6 +50,7 @@ class App:
             file = filedialog.askopenfilename(initialdir="/",title="SELECCIONAR ARCHIVO",
                         filetypes =(("PDF files","*.pdf") ,("all files","*.*")))
             if file != "":
+                print(file)
                 self.name,ex = os.path.splitext((file.split('/')[-1]))
                 try:
                     pages = 0
@@ -78,12 +79,13 @@ class App:
                     messagebox.showwarning("ERROR","Se produjo un error al cargar el archivo")
                 
     def read_text(self):
-        self.actv = True
-        self.player.setProperty('rate',int(self.entry.get()))
-        self.player.say(self.correct_speech)
-        self.player.runAndWait()
-        self.player.stop()
-        self.actv = False
+        if self.actv == False:
+            self.actv = True
+            self.player.setProperty('rate',int(self.entry.get()))
+            self.player.say(self.correct_speech)
+            self.player.runAndWait()
+            self.player.stop()
+            self.actv = False
 
     def saveFile(self):
         if self.text != "":
