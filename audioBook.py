@@ -77,9 +77,10 @@ class App:
                 except:
                     self.label2.config(text="")
                     messagebox.showwarning("ERROR","Se produjo un error al cargar el archivo")
+        
                 
     def read_text(self):
-        if self.actv == False:
+        if self.text != "" and self.actv==False:
             self.actv = True
             self.player.setProperty('rate',int(self.entry.get()))
             self.player.say(self.correct_speech)
