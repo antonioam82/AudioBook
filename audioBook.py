@@ -42,8 +42,16 @@ class App:
         self.entry.place(x=227,y=9)
         self.btnSave = Button(self.ventana,text='GUARDA AUDIO',command=lambda:self.init_task(2))
         self.btnSave.place(x=300,y=7)
+        self.btnDir = Button(self.ventana,text='SELECT FOLDER',command=self.change_dir)
+        self.btnDir.place(x=700,y=7)
 
         self.ventana.mainloop()
+
+    def change_dir(self):
+        direct = filedialog.askdirectory()
+        if direct != "":
+            os.chdir(direct)
+        
 
     def open(self):
         if self.actv == False:
