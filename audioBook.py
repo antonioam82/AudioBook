@@ -70,9 +70,9 @@ class App:
                     self.display.delete('1.0',END)
                     self.label2.config(text="CARGANDO TEXTO...")
                     out_text = StringIO()
-                    codec = 'utf-8'
+                    codec_text = 'utf-8'
                     laParams = LAParams()
-                    text_converter = TextConverter(self.resource_manager, out_text, laparams=laParams)
+                    text_converter = TextConverter(self.resource_manager, out_text, codec=codec_text, laparams=laParams)
                     fp = open(file, 'rb')
                     interpreter = PDFPageInterpreter(self.resource_manager, text_converter)
                     for page in PDFPage.get_pages(fp, pagenos=set(), maxpages=0, password="", caching=True, check_extractable=True):
@@ -90,10 +90,10 @@ class App:
                 except:
                     self.label2.config(text="")
                     messagebox.showwarning("ERROR","Se produjo un error al cargar el archivo")
-        
+
                 
     def read_text(self):
-        if self.text != "" and self.actv==False:
+        if self.text != "":
             self.actv = True
             self.player.setProperty('rate',int(self.entry.get()))
             self.player.say(self.correct_speech)
