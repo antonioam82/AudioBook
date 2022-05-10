@@ -30,7 +30,7 @@ class App:
         self.resource_manager = PDFResourceManager(caching=True)
         
         Entry(self.ventana,textvariable=self.current_dir,bg='light gray',width=166).pack(side=TOP)
-        Button(self.ventana,text="SEARCH PDF").place(x=9,y=28)
+        Button(self.ventana,text="SEARCH PDF",command=self.open_file).place(x=9,y=28)
         #self.btnListen = Button(self.ventana,text="LEER")
         #self.btnListen.place(x=90,y=25)
         self.label2 = Label(self.ventana,bg='dim gray',fg='white')
@@ -48,6 +48,13 @@ class App:
         #self.btnDir.place(x=700,y=25)
 
         self.ventana.mainloop()
+
+    def open_file(self):
+        pdf_file = filedialog.askopenfilename(initialdir="/",title="SELECT FILE",
+                        filetypes=(("PDF files","*.pdf"),("all files","*.*")))
+        if pdf_file:
+            self.name,ex = os.path.splitext((pdf_file.split('/')[-1]))
+            print(self.name)
 
             
 if __name__=="__main__":
