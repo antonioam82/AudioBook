@@ -53,8 +53,19 @@ class App:
         pdf_file = filedialog.askopenfilename(initialdir="/",title="SELECT FILE",
                         filetypes=(("PDF files","*.pdf"),("all files","*.*")))
         if pdf_file:
-            self.name,ex = os.path.splitext((pdf_file.split('/')[-1]))
-            print(self.name)
+            pages = 0
+            #self.name,ex = os.path.splitext((pdf_file.split('/')[-1]))
+            self.name = pdf_file.split('/')[-1]
+            out_text = StringIO()
+            codec_text = 'utf-8'
+            laParams = LAParams()
+            text_converter = TextConverter(self.resource_manager, out_text, codec=codec_text, laparams=laParams)
+            fp = open(pdf_file, 'rb')
+            interpreter = PDFPageInterpreter(self.resource_manager, text_converter)
+            for page in PDFPage.get_pages(fp, pagenos=set(), maxpages=0, password="", caching=True, check_extractable=True):
+                interpreter.process_page(page)
+                pages += 1
+            self.label2.configure(text="TITTLE: {} (PAGES: {})".format(self.name,pages))
 
             
 if __name__=="__main__":
