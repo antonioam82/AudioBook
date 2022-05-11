@@ -63,6 +63,7 @@ class App:
             interpreter = PDFPageInterpreter(self.resource_manager, text_converter)
             with open(pdf_file, 'rb') as fp:
                 for page in PDFPage.get_pages(fp, pagenos=set(), maxpages=0, password="", caching=True, check_extractable=True):
+                    #if pages == 3-1:  #pagina deseada - 1
                     interpreter.process_page(page)
                     pages += 1
                 
