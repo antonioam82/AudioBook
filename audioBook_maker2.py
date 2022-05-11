@@ -60,15 +60,14 @@ class App:
             codec_text = 'utf-8'
             laParams = LAParams()
             text_converter = TextConverter(self.resource_manager, out_text, codec=codec_text, laparams=laParams)
-            fp = open(pdf_file, 'rb')
             interpreter = PDFPageInterpreter(self.resource_manager, text_converter)
-            for page in PDFPage.get_pages(fp, pagenos=set(), maxpages=0, password="", caching=True, check_extractable=True):
-                interpreter.process_page(page)
-                pages += 1
+            with open(pdf_file, 'rb') as fp:
+                for page in PDFPage.get_pages(fp, pagenos=set(), maxpages=0, password="", caching=True, check_extractable=True):
+                    interpreter.process_page(page)
+                    pages += 1
                 
             self.text = out_text.getvalue()
             self.display.insert(END, self.text)
-            fp.close()
             
             self.label2.configure(text="TITTLE: {} (PAGES: {})".format(self.name,pages))
 
