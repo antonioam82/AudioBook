@@ -65,6 +65,11 @@ class App:
             for page in PDFPage.get_pages(fp, pagenos=set(), maxpages=0, password="", caching=True, check_extractable=True):
                 interpreter.process_page(page)
                 pages += 1
+                
+            self.text = out_text.getvalue()
+            self.display.insert(END, self.text)
+            fp.close()
+            
             self.label2.configure(text="TITTLE: {} (PAGES: {})".format(self.name,pages))
 
             
