@@ -18,7 +18,7 @@ class App:
 
         self.ventana = Tk()
         self.ventana.configure(bg='dim gray')
-        self.ventana.geometry("1000x599")
+        self.ventana.geometry("1061x600")#1000 n630
         self.ventana.title("AUDIO-TEXT MAKER")
         self.rate=IntVar()
         self.current_dir = StringVar()
@@ -29,13 +29,13 @@ class App:
         
         self.resource_manager = PDFResourceManager(caching=True)
         
-        Entry(self.ventana,textvariable=self.current_dir,bg='light gray',width=166).pack(side=TOP)
+        Entry(self.ventana,textvariable=self.current_dir,bg='light gray',width=176).pack(side=TOP)
         Button(self.ventana,text="SEARCH PDF",command=self.open_file).place(x=9,y=28)
         #self.btnListen = Button(self.ventana,text="LEER")
         #self.btnListen.place(x=90,y=25)
         self.label2 = Label(self.ventana,bg='dim gray',fg='white')
         self.label2.pack(side='bottom')        
-        self.display=scrolledtext.ScrolledText(self.ventana,background='white',width=120,height=32)
+        self.display=scrolledtext.ScrolledText(self.ventana,background='white',width=128,height=32)#width=120,height=32
         self.display.pack(side='bottom')
         self.player = pyttsx3.init()
         #self.label = Label(self.ventana,text='Speech Rate:',bg='dim gray',fg='white')
