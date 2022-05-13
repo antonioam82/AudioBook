@@ -19,18 +19,20 @@ class App:
         self.ventana = Tk()
         self.ventana.configure(bg='dim gray')
         self.ventana.geometry("1061x620")#1000 n630
-        self.ventana.title("AUDIO-TEXT MAKER")
-        self.rate=IntVar()
+        self.ventana.title("PDF-AUDIO-TEXT MAKER")
+        #self.rate=IntVar()
         self.current_dir = StringVar()
         self.current_dir.set(os.getcwd())
-        self.rate.set(130)
+        #self.rate.set(130)
+        self.doc = StringVar()
         self.text = ""
-        self.actv = False
+        #self.actv = False
         
         self.resource_manager = PDFResourceManager(caching=True)
         
         Entry(self.ventana,textvariable=self.current_dir,bg='light gray',width=176).pack(side=TOP)
         Button(self.ventana,text="SEARCH PDF",command=self.init_task).place(x=9,y=28)
+        Entry(self.ventana,textvariable=self.doc,width=20,font=("arial",14)).place(x=90,y=27)
         Button(self.ventana,text="GO",command=self.go_to_page).place(x=1028,y=30)
         #Button(self.ventana,text="<").pack(side='bottom')
         #Button(self.ventana,text=">").pack(side='right')
@@ -81,6 +83,7 @@ class App:
             #self.text = ""
             
             self.label2.configure(text="TITTLE: {} (PAGES: {})".format(self.name,self.pages))
+            self.doc.set(self.name)
 
     def go_to_page(self):
         pages = 0
