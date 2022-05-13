@@ -58,32 +58,33 @@ class App:
         self.ventana.mainloop()
 
     def open_file(self):
-        self.pdf_file = filedialog.askopenfilename(initialdir="/",title="SELECT FILE",
-                        filetypes=(("PDF files","*.pdf"),("all files","*.*")))
-        if self.pdf_file:
-            self.pages = 0
-            #self.name,ex = os.path.splitext((pdf_file.split('/')[-1]))
-            self.name = self.pdf_file.split('/')[-1]
-            self.out_text = StringIO()
-            self.codec_text = 'utf-8'
-            self.laParams = LAParams()
-            self.text_converter = TextConverter(self.resource_manager, self.out_text, codec=self.codec_text, laparams=self.laParams)
-            self.interpreter = PDFPageInterpreter(self.resource_manager, self.text_converter)
-            self.label2.configure(text="LOADING TEXT...")
-            with open(self.pdf_file, 'rb') as fp:
-                for page in PDFPage.get_pages(fp, pagenos=set(), maxpages=0, password="", caching=True, check_extractable=True):
-                    #if self.pages == 3-1:  #pagina deseada - 1
-                    self.interpreter.process_page(page)
-                    self.pages += 1
+        try:
+            self.pdf_file = filedialog.askopenfilename(initialdir="/",title="SELECT FILE",
+                                    filetypes=(("PDF files","*.pdf"),("all files","*.*")))
+            if self.pdf_file:
+                self.pages = 0
+                #self.name,ex = os.path.splitext((pdf_file.split('/')[-1]))
+                self.name = self.pdf_file.split('/')[-1]
+                self.out_text = StringIO()
+                self.codec_text = 'utf-8'
+                self.laParams = LAParams()
+                self.text_converter = TextConverter(self.resource_manager, self.out_text, codec=self.codec_text, laparams=self.laParams)
+                self.interpreter = PDFPageInterpreter(self.resource_manager, self.text_converter)
+                self.label2.configure(text="LOADING TEXT...")
+                with open(self.pdf_file, 'rb') as fp:
+                    for page in PDFPage.get_pages(fp, pagenos=set(), maxpages=0, password="", caching=True, check_extractable=True):
+                        self.interpreter.process_page(page)
+                        self.pages += 1
                     
-            self.n_pages()      
-            self.text = self.out_text.getvalue()
-            self.display.delete('1.0', END)
-            self.display.insert(END, self.text)
-            #self.text = ""
+                self.n_pages()      
+                self.text = self.out_text.getvalue()
+                self.display.delete('1.0', END)
+                self.display.insert(END, self.text)
             
-            self.label2.configure(text="TITTLE: {} (PAGES: {})".format(self.name,self.pages))
-            self.doc.set(self.name)
+                self.label2.configure(text="TITTLE: {} (PAGES: {})".format(self.name,self.pages))
+                self.doc.set(self.name)
+        except Exception as e:
+            messagebox.showwarning("LOAD ERROR", str(e))
 
     def go_to_page(self):
         pages = 0
@@ -106,8 +107,6 @@ class App:
         if self.pageList.get() != "ALL PAGES":
             self.display.insert(END, "*"*60+"PAGE: {}".format(pages+1)+"*"*60+"\n")
         self.display.insert(END, self.text)
-        #self.text = ""
-        
 
     def init_task(self):
         t = threading.Thread(target=self.open_file)
@@ -124,3 +123,4 @@ class App:
             
 if __name__=="__main__":
     App()
+
