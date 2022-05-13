@@ -67,6 +67,7 @@ class App:
             self.laParams = LAParams()
             self.text_converter = TextConverter(self.resource_manager, self.out_text, codec=self.codec_text, laparams=self.laParams)
             self.interpreter = PDFPageInterpreter(self.resource_manager, self.text_converter)
+            self.label2.configure(text="LOADING TEXT...")
             with open(self.pdf_file, 'rb') as fp:
                 for page in PDFPage.get_pages(fp, pagenos=set(), maxpages=0, password="", caching=True, check_extractable=True):
                     #if self.pages == 3-1:  #pagina deseada - 1
