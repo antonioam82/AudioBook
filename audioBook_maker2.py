@@ -36,6 +36,7 @@ class App:
         #Button(self.ventana,text=">").pack(side='right')
         #self.btnListen = Button(self.ventana,text="LEER")
         #self.btnListen.place(x=90,y=25)
+        Label(self.ventana,text="PAGES:",bg="dim gray",fg="white").place(x=888,y=29)
         self.pageList = ttk.Combobox(self.ventana,width=12)
         self.pageList.place(x=931,y=29)
         self.label2 = Label(self.ventana,bg='dim gray',fg='white')
@@ -76,7 +77,7 @@ class App:
             self.text = self.out_text.getvalue()
             self.display.delete('1.0', END)
             self.display.insert(END, self.text)
-            self.text = ""
+            #self.text = ""
             
             self.label2.configure(text="TITTLE: {} (PAGES: {})".format(self.name,self.pages))
 
@@ -88,7 +89,7 @@ class App:
         self.interpreter = PDFPageInterpreter(self.resource_manager, self.text_converter)
         with open(self.pdf_file, 'rb') as fp:
             for page in PDFPage.get_pages(fp, pagenos=set(), maxpages=0, password="", caching=True, check_extractable=True):
-                if self.pageList.get() == "ALL":
+                if self.pageList.get() == "ALL PAGES":
                     self.interpreter.process_page(page)
                 else:
                     if pages == int(self.pageList.get().split(' ')[-1])-1:
@@ -97,9 +98,9 @@ class App:
                         break
                 pages+=1
                     
-        self.texti = self.out_text.getvalue()
-        self.display.insert(END, self.texti)
-        self.texti = ""
+        self.text = self.out_text.getvalue()
+        self.display.insert(END, self.text)
+        #self.text = ""
         
 
     def init_task(self):
@@ -110,9 +111,9 @@ class App:
         list_of_pages = []
         for i in range(self.pages):
             list_of_pages.append("PAGE {}".format(i+1))
-        list_of_pages.append("ALL")
+        list_of_pages.append("ALL PAGES")
         self.pageList["values"] = list_of_pages
-        self.pageList.set("ALL")
+        self.pageList.set("ALL PAGES")
 
             
 if __name__=="__main__":
