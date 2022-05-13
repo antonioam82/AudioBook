@@ -32,7 +32,7 @@ class App:
         
         Entry(self.ventana,textvariable=self.current_dir,bg='light gray',width=176).pack(side=TOP)
         Button(self.ventana,text="SEARCH PDF",command=self.init_task).place(x=9,y=28)
-        Entry(self.ventana,textvariable=self.doc,width=20,font=("arial",14)).place(x=90,y=27)
+        Entry(self.ventana,textvariable=self.doc,width=13,font=("arial",14)).place(x=90,y=27)
         Button(self.ventana,text="GO",command=self.go_to_page).place(x=1028,y=30)
         #Button(self.ventana,text="<").pack(side='bottom')
         #Button(self.ventana,text=">").pack(side='right')
@@ -103,6 +103,8 @@ class App:
                 pages+=1
                     
         self.text = self.out_text.getvalue()
+        if self.pageList.get() != "ALL PAGES":
+            self.display.insert(END, "*"*60+"PAGE: {}".format(pages+1)+"*"*60+"\n")
         self.display.insert(END, self.text)
         #self.text = ""
         
