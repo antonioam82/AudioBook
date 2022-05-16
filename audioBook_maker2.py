@@ -116,7 +116,10 @@ class App:
 
     def move(self,mov):
         current_pos = self.list_of_pages.index(self.pageList.get())
+        if current_pos + 1 == len(self.list_of_pages):
+            current_pos = -1
         self.pageList.set(self.list_of_pages[current_pos+(mov)])
+            
         self.go_to_page()
         print(current_pos)
 
