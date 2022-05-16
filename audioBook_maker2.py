@@ -35,8 +35,8 @@ class App:
         Entry(self.ventana,textvariable=self.doc,width=13,font=("arial",14)).place(x=90,y=27)
         Button(self.ventana,text="GO",command=self.go_to_page).place(x=1028,y=30)
         Button(self.ventana,text="SAVE AUDIOBOOK").place(x=260,y=28)
-        Button(self.ventana,text="<").place(x=9,y=597)
-        Button(self.ventana,text=">").place(x=1036,y=597)
+        Button(self.ventana,text="<",command=lambda:self.move(-1)).place(x=9,y=597)
+        Button(self.ventana,text=">",command=lambda:self.move(1)).place(x=1036,y=597)
         #self.btnListen = Button(self.ventana,text="LEER")
         #self.btnListen.place(x=90,y=25)
         Label(self.ventana,text="PAGES:",bg="dim gray",fg="white").place(x=888,y=29)
@@ -48,14 +48,6 @@ class App:
         self.display=scrolledtext.ScrolledText(self.ventana,background='white',width=128,height=33)#width=120,height=32
         self.display.place(x=9,y=62)
         self.player = pyttsx3.init()
-        #self.label = Label(self.ventana,text='Speech Rate:',bg='dim gray',fg='white')
-        #self.label.place(x=150,y=30)
-        #self.entry = Entry(self.ventana,width=6,textvariable=self.rate)
-        #self.entry.place(x=227,y=30)
-        #self.btnSave = Button(self.ventana,text='GUARDA AUDIO')
-        #self.btnSave.place(x=300,y=25)
-        #self.btnDir = Button(self.ventana,text='SELECT FOLDER')
-        #self.btnDir.place(x=700,y=25)
 
         self.ventana.mainloop()
 
@@ -115,12 +107,18 @@ class App:
         t.start()
 
     def n_pages(self):
-        list_of_pages = []
+        self.list_of_pages = []
         for i in range(self.pages):
-            list_of_pages.append("PAGE {}".format(i+1))
-        list_of_pages.append("ALL PAGES")
-        self.pageList["values"] = list_of_pages
-        self.pageList.set("ALL PAGES")
+            self.list_of_pages.append("PAGE {}".format(i+1))
+        self.list_of_pages.append("ALL PAGES")
+        self.pageList["values"] = self.list_of_pages
+        self.pageList.set("ALL PAGES")#("ALL PAGES")
+
+    def move(self,mov):
+        current_pos = self.list_of_pages.index(self.pageList.get())
+        self.pageList.set(self.list_of_pages[current_pos+(mov)])
+        self.go_to_page()
+        print(current_pos)
 
             
 if __name__=="__main__":
