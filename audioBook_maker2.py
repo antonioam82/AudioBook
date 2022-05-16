@@ -18,7 +18,7 @@ class App:
 
         self.ventana = Tk()
         self.ventana.configure(bg='dim gray')
-        self.ventana.geometry("1061x620")#1000 n630
+        self.ventana.geometry("1061x624")#1000 n630
         self.ventana.title("PDF-AUDIO-TEXT MAKER")
         #self.rate=IntVar()
         self.current_dir = StringVar()
@@ -35,15 +35,16 @@ class App:
         Entry(self.ventana,textvariable=self.doc,width=13,font=("arial",14)).place(x=90,y=27)
         Button(self.ventana,text="GO",command=self.go_to_page).place(x=1028,y=30)
         Button(self.ventana,text="SAVE AUDIOBOOK").place(x=260,y=28)
-        #Button(self.ventana,text="<").pack(side='bottom')
-        #Button(self.ventana,text=">").pack(side='right')
+        Button(self.ventana,text="<").place(x=9,y=597)
+        Button(self.ventana,text=">").place(x=1036,y=597)
         #self.btnListen = Button(self.ventana,text="LEER")
         #self.btnListen.place(x=90,y=25)
         Label(self.ventana,text="PAGES:",bg="dim gray",fg="white").place(x=888,y=29)
         self.pageList = ttk.Combobox(self.ventana,width=12)
         self.pageList.place(x=931,y=29)
-        self.label2 = Label(self.ventana,bg='dim gray',fg='white')
-        self.label2.pack(side='bottom')        
+        self.label2 = Label(self.ventana,bg='dim gray',fg='white',width=143)
+        self.label2.place(x=28,y=599)
+        #self.label2.pack(side='bottom')        
         self.display=scrolledtext.ScrolledText(self.ventana,background='white',width=128,height=33)#width=120,height=32
         self.display.place(x=9,y=62)
         self.player = pyttsx3.init()
