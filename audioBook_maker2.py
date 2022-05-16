@@ -30,10 +30,11 @@ class App:
         
         self.resource_manager = PDFResourceManager(caching=True)
         
-        Entry(self.ventana,textvariable=self.current_dir,bg='light gray',width=176).pack(side=TOP)
+        Entry(self.ventana,textvariable=self.current_dir,bg='light gray',width=176).place(x=0,y=0)#.pack(side=TOP)
         Button(self.ventana,text="SEARCH PDF",command=self.init_task).place(x=9,y=28)
         Entry(self.ventana,textvariable=self.doc,width=13,font=("arial",14)).place(x=90,y=27)
         Button(self.ventana,text="GO",command=self.go_to_page).place(x=1028,y=30)
+        Button(self.ventana,text="SAVE AUDIOBOOK").place(x=260,y=28)
         #Button(self.ventana,text="<").pack(side='bottom')
         #Button(self.ventana,text=">").pack(side='right')
         #self.btnListen = Button(self.ventana,text="LEER")
