@@ -10,7 +10,7 @@ from pdfminer.converter import TextConverter
 from io import StringIO
 from pdfminer.pdfpage import PDFPage
 import threading
-import gtts
+from gtts import gTTS
 import os
 
 class App:
@@ -34,7 +34,7 @@ class App:
         Button(self.ventana,text="SEARCH PDF",command=self.init_task).place(x=9,y=28)
         Entry(self.ventana,textvariable=self.doc,width=13,font=("arial",14)).place(x=90,y=27)
         Button(self.ventana,text="GO",command=self.go_to_page).place(x=1028,y=30)
-        Button(self.ventana,text="SAVE AUDIOBOOK").place(x=260,y=28)
+        Button(self.ventana,text="SAVE AUDIOBOOK",command=self.init_task2).place(x=260,y=28)
         Button(self.ventana,text="<",command=lambda:self.move(-1)).place(x=9,y=597)
         Button(self.ventana,text=">",command=lambda:self.move(1)).place(x=1036,y=597)
         #self.btnListen = Button(self.ventana,text="LEER")
@@ -122,6 +122,19 @@ class App:
             
         self.go_to_page()
         print(current_pos)
+
+    def init_task2(self):
+        t = threading.Thread(target=self.create_audio_file)
+        t.start()
+
+    def create_audio_file(self):
+        audio_book = filedialog.asksaveasfilename(initialdir="/",title="Save as",defaultextension=".mp3")
+        if audio_book:
+            self.label2.configure(text="SAVING: {}".format(audio_book.split('/')[-1]))
+            tts = gTTS(self.text)
+            tts.save(audio_book)
+            self.label2.configure(text="TITTLE: {} (PAGES: {})".format(self.name,self.pages))
+            print("ok")
 
             
 if __name__=="__main__":
