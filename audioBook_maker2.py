@@ -127,18 +127,20 @@ class App:
         if self.text != "": 
             t = threading.Thread(target=self.create_audio_file)
             t.start()
+        else:
+            messagebox.showwarning("NO INFO","No text to convert.")
 
     def create_audio_file(self):
         audio_book = filedialog.asksaveasfilename(initialdir="/",title="Save as",defaultextension=".mp3")
         if audio_book:
             self.label2.configure(text="SAVING: {}".format(audio_book.split('/')[-1]))
-            tts = gTTS(self.text)
-            tts.save(audio_book)
-            self.label2.configure(text="TITTLE: {} (PAGES: {})".format(self.name,self.pages))
-            print("ok")
-        else:
-            print("no")
-
+            try:
+                tts = gTTS(self.text)
+                tts.save(audio_book)
+                self.label2.configure(text="TITTLE: {} (PAGES: {})".format(self.name,self.pages))
+                messagebox.showinfo("SAVED","Saved file '{}'".format(audio_book.split('/')[-1]))
+            except Exception as e:
+                messagebox.showwarning("UNEXPECTED ERROR",str(e))
             
 if __name__=="__main__":
     App()
