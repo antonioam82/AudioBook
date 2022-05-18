@@ -124,8 +124,9 @@ class App:
         print(current_pos)
 
     def init_task2(self):
-        t = threading.Thread(target=self.create_audio_file)
-        t.start()
+        if self.text != "": 
+            t = threading.Thread(target=self.create_audio_file)
+            t.start()
 
     def create_audio_file(self):
         audio_book = filedialog.asksaveasfilename(initialdir="/",title="Save as",defaultextension=".mp3")
@@ -135,6 +136,8 @@ class App:
             tts.save(audio_book)
             self.label2.configure(text="TITTLE: {} (PAGES: {})".format(self.name,self.pages))
             print("ok")
+        else:
+            print("no")
 
             
 if __name__=="__main__":
