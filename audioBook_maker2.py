@@ -1,6 +1,5 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-import pyttsx3
 from tkinter import *
 from tkinter import filedialog, messagebox, ttk
 import tkinter.scrolledtext as scrolledtext
@@ -8,6 +7,7 @@ from pdfminer.pdfinterp import PDFResourceManager, PDFPageInterpreter
 from pdfminer.layout import LAParams
 from pdfminer.converter import TextConverter
 from io import StringIO
+from googletrans import Translator
 from pdfminer.pdfpage import PDFPage
 import threading
 from gtts import gTTS
@@ -20,6 +20,7 @@ class App:
         self.ventana.configure(bg='dim gray')
         self.ventana.geometry("1061x624")#1000 n630
         self.ventana.title("PDF-AUDIO-TEXT MAKER")
+        self.translator = Translator()
         #self.rate=IntVar()
         self.current_dir = StringVar()
         self.current_dir.set(os.getcwd())
@@ -47,7 +48,7 @@ class App:
         #self.label2.pack(side='bottom')        
         self.display=scrolledtext.ScrolledText(self.ventana,background='white',width=128,height=33)#width=120,height=32
         self.display.place(x=9,y=62)
-        self.player = pyttsx3.init()
+        #self.player = pyttsx3.init()
 
         self.ventana.mainloop()
 
@@ -69,6 +70,7 @@ class App:
                     for page in PDFPage.get_pages(fp, pagenos=set(), maxpages=0, password="", caching=True, check_extractable=True):
                         self.interpreter.process_page(page)
                         self.pages += 1
+                #self.go_to_page()
                     
                 self.n_pages()      
                 self.text = self.out_text.getvalue()
@@ -135,7 +137,9 @@ class App:
         if audio_book:
             self.label2.configure(text="SAVING: {}".format(audio_book.split('/')[-1]))
             try:
-                tts = gTTS(self.text)
+                lang_ = (self.translator.translate(self.text).src)
+                print(lang_)
+                tts = gTTS(self.text,lang=lang_)
                 tts.save(audio_book)
                 self.label2.configure(text="TITTLE: {} (PAGES: {})".format(self.name,self.pages))
                 messagebox.showinfo("SAVED","Saved file '{}'".format(audio_book.split('/')[-1]))
