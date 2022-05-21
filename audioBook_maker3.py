@@ -22,7 +22,12 @@ class App:
         Button(self.root,text="SEARCH",height=2,width=10).place(x=10,y=44)
         Entry(self.root,textvariable=self.file_name,width=33,font=('arial',24)).place(x=96,y=44)
         Label(self.root,text="PAGES:").place(x=740,y=53)
-        Label(self.root,fg='red',bg='black',height=2,widt=12).place(x=790,y=45)
+        self.pages_label = Label(self.root,fg='red',bg='black',height=2,widt=12)
+        self.pages_label.place(x=790,y=45)
+        Label(self.root,text="LANG:").place(x=740,y=140)
+        self.lang_label = Label(self.root,fg='red',bg='black',height=2,widt=12)
+        self.lang_label.place(x=790,y=133)
+        
 
         self.root.mainloop()
 
