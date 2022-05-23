@@ -19,18 +19,20 @@ class App:
         self.file_name = StringVar()
 
         Entry(self.root,textvariable=current_dir,width=148).place(x=0,y=0)
-        Button(self.root,text="SEARCH",height=2,width=10).place(x=10,y=44)
-        Entry(self.root,textvariable=self.file_name,width=33,font=('arial',24)).place(x=96,y=44)
+        Button(self.root,text="SEARCH",height=2,width=11,bg='gray78').place(x=10,y=44)
+        Entry(self.root,textvariable=self.file_name,width=33,font=('arial',24)).place(x=98,y=44)
         Label(self.root,text="PAGES:").place(x=740,y=53)
         self.pages_label = Label(self.root,fg='red',bg='black',height=2,widt=12)
         self.pages_label.place(x=790,y=45)
         Label(self.root,text="LANG:").place(x=740,y=140)
         self.lang_label = Label(self.root,fg='red',bg='black',height=2,widt=12)
         self.lang_label.place(x=790,y=133)
+        Button(self.root,text="CREATE AUDIO-BOOK",height=2,width=97,bg='gray78').place(x=10,y=133)
         
 
         self.root.mainloop()
 
 if __name__ == "__main__":
     App()
+        
         
