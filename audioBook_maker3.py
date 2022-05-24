@@ -17,7 +17,8 @@ class App:
         current_dir = StringVar()
         current_dir.set(os.getcwd())
         self.file_name = StringVar()
-
+        self.translator = Translator()
+        
         Entry(self.root,textvariable=current_dir,width=148).place(x=0,y=0)
         Button(self.root,text="SEARCH",height=2,width=11,bg='gray78',command=self.open_file).place(x=10,y=44)
         Entry(self.root,textvariable=self.file_name,width=33,font=('arial',24)).place(x=98,y=44)
@@ -42,7 +43,14 @@ class App:
                 with open(self.pdf_file, 'rb') as book:
                     reader = PyPDF2.PdfFileReader(book)
                     pages = reader.numPages
+                    for page in range(pages):
+                        next_page = reader.getPage(page)
+                        content = next_page.extractText()
+                        
+                      
+                lang_ = (self.translator.translate(content).src)
                 self.pages_label.configure(text=pages)
+                self.lang_label.configure(text=lang_.upper())
                 
         except Exception as e:
             messagebox.showwarning("LOAD ERROR",str(e))
