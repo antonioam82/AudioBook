@@ -11,7 +11,7 @@ import os
 class App:
     def __init__(self):
         self.root = Tk()
-        self.root.geometry("893x300")
+        self.root.geometry("893x215")
         self.root.title("AUDIOBOOK MAKER")
 
         current_dir = StringVar()
@@ -35,5 +35,6 @@ class App:
 
 if __name__ == "__main__":
     App()
+        
         
         
