@@ -106,26 +106,27 @@ class App:
             self.label2.configure(text="")
 
     def go_to_page(self):
-        pages = 0
-        self.display.delete('1.0', END)
-        self.out_text = StringIO()
-        self.text_converter = TextConverter(self.resource_manager, self.out_text, codec=self.codec_text, laparams=self.laParams)
-        self.interpreter = PDFPageInterpreter(self.resource_manager, self.text_converter)
-        with open(self.pdf_file, 'rb') as fp:
-            for page in PDFPage.get_pages(fp, pagenos=set(), maxpages=0, password="", caching=True, check_extractable=True):
-                if self.pageList.get() == "ALL PAGES":
-                    self.interpreter.process_page(page)
-                else:
-                    if pages == int(self.pageList.get().split(' ')[-1])-1:
-                        print(pages)
+        if self.text != "":
+            pages = 0
+            self.display.delete('1.0', END)
+            self.out_text = StringIO()
+            self.text_converter = TextConverter(self.resource_manager, self.out_text, codec=self.codec_text, laparams=self.laParams)
+            self.interpreter = PDFPageInterpreter(self.resource_manager, self.text_converter)
+            with open(self.pdf_file, 'rb') as fp:
+                for page in PDFPage.get_pages(fp, pagenos=set(), maxpages=0, password="", caching=True, check_extractable=True):
+                    if self.pageList.get() == "ALL PAGES":
                         self.interpreter.process_page(page)
-                        break
-                pages+=1
+                    else:
+                        if pages == int(self.pageList.get().split(' ')[-1])-1:
+                            print(pages)
+                            self.interpreter.process_page(page)
+                            break
+                    pages+=1
                     
-        self.text = self.out_text.getvalue()
-        if self.pageList.get() != "ALL PAGES":
-            self.display.insert(END, "*"*60+"PAGE: {}".format(pages+1)+"*"*60+"\n")
-        self.display.insert(END, self.text)
+            self.text = self.out_text.getvalue()
+            if self.pageList.get() != "ALL PAGES":
+                self.display.insert(END, "*"*60+"PAGE: {}".format(pages+1)+"*"*60+"\n")
+            self.display.insert(END, self.text)
 
     def init_task(self):
         t = threading.Thread(target=self.open_file)
@@ -140,13 +141,14 @@ class App:
         self.pageList.set("ALL PAGES")#("ALL PAGES")
 
     def move(self,mov):
-        current_pos = self.list_of_pages.index(self.pageList.get())
-        if current_pos + 1 == len(self.list_of_pages):
-            current_pos = -1
-        self.pageList.set(self.list_of_pages[current_pos+(mov)])
+        if self.text != "":
+            current_pos = self.list_of_pages.index(self.pageList.get())
+            if current_pos + 1 == len(self.list_of_pages):
+                current_pos = -1
+            self.pageList.set(self.list_of_pages[current_pos+(mov)])
             
-        self.go_to_page()
-        print(current_pos)
+            self.go_to_page()
+            print(current_pos)
 
     def init_task2(self):
         if self.text != "": 
