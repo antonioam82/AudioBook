@@ -95,9 +95,9 @@ class App:
                 self.n_pages()      
                 self.text = self.out_text.getvalue()
                 self.lang = (self.translator.translate(self.text).src)
-                print(self.lang)
                 self.display.delete('1.0', END)
                 self.display.insert(END, self.text)
+                self.display.config(state=DISABLED)##
             
                 self.label2.configure(text="TITTLE: {} (PAGES: {})".format(self.name,self.pages))
                 self.doc.set(self.name)
@@ -107,6 +107,7 @@ class App:
 
     def go_to_page(self):
         if self.text != "":
+            self.display.config(state=NORMAL)
             pages = 0
             self.display.delete('1.0', END)
             self.out_text = StringIO()
@@ -127,6 +128,7 @@ class App:
             if self.pageList.get() != "ALL PAGES":
                 self.display.insert(END, "*"*60+"PAGE: {}".format(pages+1)+"*"*60+"\n")
             self.display.insert(END, self.text)
+            self.display.config(state=DISABLED)##
 
     def init_task(self):
         t = threading.Thread(target=self.open_file)
