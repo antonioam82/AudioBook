@@ -38,6 +38,7 @@ class App:
         self.ventana.geometry("1061x624")#1000 n630
         self.ventana.title("PDF-AUDIO-TEXT MAKER")
         self.translator = Translator()
+        self.loaded = ""
         #self.rate=IntVar()
         self.current_dir = StringVar()
         self.current_dir.set(os.getcwd())
@@ -104,7 +105,7 @@ class App:
                 self.label2.configure(text="TITTLE: {} (PAGES: {})".format(self.name,self.pages))
                 self.doc.set(self.name)
             else:
-                if self.doc.get() != "":
+                if self.loaded != "":
                     self.pdf_file = self.loaded
                 
         except Exception as e:
