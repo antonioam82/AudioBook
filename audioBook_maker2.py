@@ -74,9 +74,11 @@ class App:
 
     def open_file(self):
         try:
+            self.display.config(state=NORMAL)
             self.pdf_file = filedialog.askopenfilename(initialdir="/",title="SELECT FILE",
                                     filetypes=(("PDF files","*.pdf"),("all files","*.*")))
             if self.pdf_file:
+                self.loaded = self.pdf_file
                 self.pages = 0
                 #self.name,ex = os.path.splitext((pdf_file.split('/')[-1]))
                 self.name = self.pdf_file.split('/')[-1]
@@ -101,6 +103,10 @@ class App:
             
                 self.label2.configure(text="TITTLE: {} (PAGES: {})".format(self.name,self.pages))
                 self.doc.set(self.name)
+            else:
+                if self.doc.get() != "":
+                    self.pdf_file = self.loaded
+                
         except Exception as e:
             messagebox.showwarning("LOAD ERROR", str(e))
             self.label2.configure(text="")
