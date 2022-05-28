@@ -72,7 +72,9 @@ class App:
         self.display.place(x=9,y=62)
         #self.player = pyttsx3.init()
 
-        self.ks()
+        self.keys = list(LANGUAGES.keys())
+        self.langList["values"] = list(LANGUAGES.values())
+        self.langList.set("english")
 
         self.ventana.mainloop()
 
@@ -99,7 +101,7 @@ class App:
                         self.pages += 1
                     
                 self.n_pages()      
-                self.text = self.out_text.getvalue()
+                self.text = self.BMP(self.out_text.getvalue())
                 self.lang = (self.translator.translate(self.text).src)
                 print(self.lang)
                 self.langList.set(LANGUAGES[self.lang])
@@ -123,6 +125,9 @@ class App:
             lans.append(i)
         self.langList["values"] = lans
         self.langList.set("english")
+
+    def BMP(self,s):
+        return "".join((i if ord(i) < 10000 else '\ufffd' for i in s))
         
 
     def go_to_page(self):
@@ -144,7 +149,7 @@ class App:
                             break
                     pages+=1
                     
-            self.text = self.out_text.getvalue()
+            self.text = self.BMP(self.out_text.getvalue())
             if self.pageList.get() != "ALL PAGES":
                 self.display.insert(END, "*"*60+"PAGE: {}".format(pages+1)+"*"*60+"\n")
             self.display.insert(END, self.text)
@@ -184,8 +189,8 @@ class App:
         if audio_book:
             self.label2.configure(text="SAVING: {}".format(audio_book.split('/')[-1]))
             try:
-                
-                tts = gTTS(self.text,lang=self.lang)
+                chosen_lan = list(LANGUAGES.keys())[list(LANGUAGES.values()).index(self.langList.get())]
+                tts = gTTS(self.text,lang=chosen_lan)################
                 tts.save(audio_book)
                 self.label2.configure(text="TITTLE: {} (PAGES: {})".format(self.name,self.pages))
                 messagebox.showinfo("SAVED","Saved file '{}'".format(audio_book.split('/')[-1]))
