@@ -101,6 +101,8 @@ class App:
                 self.n_pages()      
                 self.text = self.out_text.getvalue()
                 self.lang = (self.translator.translate(self.text).src)
+                print(self.lang)
+                self.langList.set(LANGUAGES[self.lang])
                 self.display.delete('1.0', END)
                 self.display.insert(END, self.text)
                 self.display.config(state=DISABLED)##
