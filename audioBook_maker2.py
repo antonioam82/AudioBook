@@ -30,6 +30,7 @@ LANGUAGES = {'af': 'afrikaans','sq': 'albanian','am': 'amharic','ar': 'arabic','
 'ta': 'tamil','te': 'telugu','th': 'thai','tr': 'turkish','uk': 'ukrainian','ur': 'urdu','ug': 'uyghur','uz': 'uzbek',
 'vi': 'vietnamese','cy': 'welsh','xh': 'xhosa','yi': 'yiddish','yo': 'yoruba','zu': 'zulu'}
 
+
 class App:
     def __init__(self):
 
@@ -71,6 +72,8 @@ class App:
         self.display.place(x=9,y=62)
         #self.player = pyttsx3.init()
 
+        self.ks()
+
         self.ventana.mainloop()
 
     def open_file(self):
@@ -111,6 +114,14 @@ class App:
         except Exception as e:
             messagebox.showwarning("LOAD ERROR", str(e))
             self.label2.configure(text="")
+
+    def ks(self):
+        lans = []
+        for i in LANGUAGES.values():
+            lans.append(i)
+        self.langList["values"] = lans
+        self.langList.set("english")
+        
 
     def go_to_page(self):
         if self.text != "":
