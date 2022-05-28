@@ -119,13 +119,6 @@ class App:
             messagebox.showwarning("LOAD ERROR", str(e))
             self.label2.configure(text="")
 
-    def ks(self):
-        lans = []
-        for i in LANGUAGES.values():
-            lans.append(i)
-        self.langList["values"] = lans
-        self.langList.set("english")
-
     def BMP(self,s):
         return "".join((i if ord(i) < 10000 else '\ufffd' for i in s))
         
