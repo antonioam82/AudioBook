@@ -10,6 +10,8 @@ from io import StringIO
 from googletrans import Translator
 from pdfminer.pdfpage import PDFPage
 import threading
+#import re
+from unicodedata import normalize
 from gtts import gTTS
 import os
 
@@ -46,7 +48,7 @@ class App:
         #self.rate.set(130)
         self.doc = StringVar()
         self.text = ""
-        #self.actv = False
+        self.cancel = False
         
         self.resource_manager = PDFResourceManager(caching=True)
         
@@ -74,7 +76,7 @@ class App:
 
         self.keys = list(LANGUAGES.keys())
         self.langList["values"] = list(LANGUAGES.values())
-        self.langList.set("english")
+        #self.langList.set("english")
 
         self.ventana.mainloop()
 
@@ -94,16 +96,18 @@ class App:
                 self.text_converter = TextConverter(self.resource_manager, self.out_text, codec=self.codec_text, laparams=self.laParams)
                 self.interpreter = PDFPageInterpreter(self.resource_manager, self.text_converter)
                 
-                self.label2.configure(text="LOADING TEXT...")
+                self.label2.configure(text="LOADING TEXT...(PAGES: {})".format(self.pages))
                 with open(self.pdf_file, 'rb') as fp:
                     for page in PDFPage.get_pages(fp, pagenos=set(), maxpages=0, password="", caching=True, check_extractable=True):
                         self.interpreter.process_page(page)
+                        self.label2.configure(text="LOADING TEXT...(PAGES: {})".format(self.pages))
                         self.pages += 1
-                    
+    
                 self.n_pages()      
-                self.text = self.BMP(self.out_text.getvalue())
+                #self.text = self.BMP(self.out_text.getvalue())
+                self.text = self.out_text.getvalue()
+                self.text = self.normalize_text()
                 self.lang = (self.translator.translate(self.text).src)
-                print(self.lang)
                 self.langList.set(LANGUAGES[self.lang])
                 self.display.delete('1.0', END)
                 self.display.insert(END, self.text)
@@ -119,10 +123,14 @@ class App:
             messagebox.showwarning("LOAD ERROR", str(e))
             self.label2.configure(text="")
 
-    def BMP(self,s):
-        return "".join((i if ord(i) < 10000 else '\ufffd' for i in s))
-        
+    #def BMP(self,s):
+        #return "".join((i if ord(i) < 10000 else '\ufffd' for i in s))
 
+    def normalize_text(self):
+        trans_tab = dict.fromkeys(map(ord, u'\u0301\u0308'), None)
+        self.text = normalize('NFKC', normalize('NFKD', self.text).translate(trans_tab))
+        return self.text
+        
     def go_to_page(self):
         if self.text != "":
             self.display.config(state=NORMAL)
@@ -141,8 +149,9 @@ class App:
                             self.interpreter.process_page(page)
                             break
                     pages+=1
-                    
-            self.text = self.BMP(self.out_text.getvalue())
+
+            self.text = self.out_text.getvalue()
+            self.text = self.normalize_text()
             if self.pageList.get() != "ALL PAGES":
                 self.display.insert(END, "*"*60+"PAGE: {}".format(pages+1)+"*"*60+"\n")
             self.display.insert(END, self.text)
