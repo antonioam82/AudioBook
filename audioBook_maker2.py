@@ -97,14 +97,20 @@ class App:
                 self.n_pages()      
                 self.text = self.out_text.getvalue()
                 self.text = self.normalize_text()
-                self.lang = (self.translator.translate(self.text).src)
+                try:
+                    self.lang = (self.translator.translate(self.text).src)
+                except:
+                    messagebox.showwarning("UNEXPECTED ERROR",'''There was a problem connecting to the Google Translator service. The language will default to 'English'.''')
+                    self.lang = 'en'
                 self.langList.set(LANGUAGES[self.lang])
+                print(self.lang)
                 self.display.delete('1.0', END)
                 self.display.insert(END, self.text)
                 self.display.config(state=DISABLED)##
             
                 self.label2.configure(text="TITTLE: {} (PAGES: {})".format(self.name,self.pages))
                 self.doc.set(self.name)
+                #self.docName.configure(state="disabled")
             else:
                 if self.loaded != "":
                     self.pdf_file = self.loaded
