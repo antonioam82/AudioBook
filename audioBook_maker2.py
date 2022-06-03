@@ -54,6 +54,8 @@ class App:
         Entry(self.ventana,textvariable=self.doc,width=18,font=("arial",14)).place(x=90,y=27)
         Button(self.ventana,text="GO",command=self.go_to_page).place(x=1028,y=30)
         Button(self.ventana,text="SAVE AUDIOBOOK",command=self.init_task2).place(x=309,y=28)
+        self.btnPlay = Button(self.ventana,text="PLAY",width=6,state='disabled')
+        self.btnPlay.place(x=420,y=28)
         Label(self.ventana,text="LANG:",bg="dim gray",fg="white").place(x=730,y=29)
         self.langList = ttk.Combobox(self.ventana,width=12)
         self.langList.place(x=769,y=29)
@@ -106,11 +108,10 @@ class App:
                 print(self.lang)
                 self.display.delete('1.0', END)
                 self.display.insert(END, self.text)
-                self.display.config(state=DISABLED)##
+                self.display.config(state=DISABLED)
             
                 self.label2.configure(text="TITTLE: {} (PAGES: {})".format(self.name,self.pages))
                 self.doc.set(self.name)
-                #self.docName.configure(state="disabled")
             else:
                 if self.loaded != "":
                     self.pdf_file = self.loaded
@@ -135,14 +136,14 @@ class App:
             with open(self.pdf_file, 'rb') as fp:
                 for page in PDFPage.get_pages(fp, pagenos=set(), maxpages=0, password="", caching=True, check_extractable=True):
                     if self.pageList.get() == "ALL PAGES":
-                        self.interpreter.process_page(page)
+                            self.interpreter.process_page(page)
                     else:
                         if pages == int(self.pageList.get().split(' ')[-1])-1:
                             print(pages)
                             self.interpreter.process_page(page)
                             break
                     pages+=1
-
+                    
             self.text = self.out_text.getvalue()
             self.text = self.normalize_text()
             if self.pageList.get() != "ALL PAGES":
