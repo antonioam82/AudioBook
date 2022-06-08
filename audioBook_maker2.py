@@ -171,7 +171,6 @@ class App:
             self.pageList.set(self.list_of_pages[current_pos+(mov)])
             
             self.go_to_page()
-            print(current_pos)
 
     def init_task2(self):
         if self.text != "": 
